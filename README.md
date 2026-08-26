@@ -76,6 +76,13 @@ You can follow the youtube series in the following [link](https://www.youtube.co
   - [Expo](https://expo.dev/)
   - [Firebase](https://firebase.google.com/)
 
+- ### **System Dependencies**
+
+  This project uses the `cowsay` package for fun terminal output. Install it system-wide with:
+  ```bash
+  sudo apt-get install cowsay
+  ```
+
 <!-- GETTING STARTED -->
 
 - ### **Installation**
