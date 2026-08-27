@@ -10,7 +10,7 @@ import { Divider, Snackbar } from 'react-native-paper';
 import ParsedText from 'react-native-parsed-text';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { deletePost, fetchUserPosts, sendNotification } from '../../../redux/actions/index';
+import { deletePost, fetchUserPosts, sendNotification, toggleLike } from '../../../redux/actions/index';
 import { container, text, utils } from '../../styles';
 import { timeDifference } from '../../utils';
 import CachedImage from '../random/CachedImage';
@@ -131,34 +131,19 @@ function Post(props) {
         props.navigation.navigate("ProfileOther", { username, uid: undefined })
     }
 
-    const onLikePress = (userId, postId, item) => {
-        item.likesCount += 1;
+    const onLikePress = (userId, postId) => {
         setCurrentUserLike(true)
-        firebase.firestore()
-            .collection("posts")
-            .doc(userId)
-            .collection("userPosts")
-            .doc(postId)
-            .collection("likes")
-            .doc(firebase.auth().currentUser.uid)
-            .set({})
-            .then()
+        setItem(prev => ({ ...prev, likesCount: (prev.likesCount || 0) + 1 }))
+        props.toggleLike(userId, postId, false)
         props.sendNotification(user.notificationToken, "New Like", `${props.currentUser.name} liked your post`, { type: 0, postId, user: firebase.auth().currentUser.uid })
-
     }
-    const onDislikePress = (userId, postId, item) => {
-        item.likesCount -= 1;
 
+    const onDislikePress = (userId, postId) => {
         setCurrentUserLike(false)
-        firebase.firestore()
-            .collection("posts")
-            .doc(userId)
-            .collection("userPosts")
-            .doc(postId)
-            .collection("likes")
-            .doc(firebase.auth().currentUser.uid)
-            .delete()
+        setItem(prev => ({ ...prev, likesCount: Math.max(0, (prev.likesCount || 0) - 1) }))
+        props.toggleLike(userId, postId, true)
     }
+
     if (!exists && loaded) {
         return (
             <View style={{ height: '100%', justifyContent: 'center', margin: 'auto' }}>
@@ -339,11 +324,11 @@ function Post(props) {
                 <View style={[utils.padding10, container.horizontal]}>
                     {currentUserLike ?
                         (
-                            <Entypo name="heart" size={30} color="red" onPress={() => onDislikePress(user.uid, item.id, item)} />
+                            <Entypo name="heart" size={30} color="red" onPress={() => onDislikePress(user.uid, item.id)} />
                         )
                         :
                         (
-                            <Feather name="heart" size={30} color="black" onPress={() => onLikePress(user.uid, item.id, item)} />
+                            <Feather name="heart" size={30} color="black" onPress={() => onLikePress(user.uid, item.id)} />
 
                         )
                     }
@@ -451,6 +436,6 @@ const mapStateToProps = (store) => ({
     usersFollowingLoaded: store.usersState.usersFollowingLoaded,
 })
 
-const mapDispatchProps = (dispatch) => bindActionCreators({ sendNotification, fetchUserPosts, deletePost }, dispatch);
+const mapDispatchProps = (dispatch) => bindActionCreators({ sendNotification, fetchUserPosts, deletePost, toggleLike }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchProps)(Post);

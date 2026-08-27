@@ -11,3 +11,7 @@ web-build/
 
 # macOS
 .DS_Store
+
+# test dependencies
+tests/node_modules/
+tests/package-lock.json
