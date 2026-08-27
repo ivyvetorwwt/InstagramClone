@@ -1,7 +1,7 @@
 import * as Notifications from 'expo-notifications';
 import firebase from 'firebase';
 import { Constants } from 'react-native-unimodules';
-import { CLEAR_DATA, USERS_DATA_STATE_CHANGE, USERS_LIKES_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, USER_CHATS_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE, USER_POSTS_STATE_CHANGE, USER_STATE_CHANGE } from '../constants/index';
+import { CLEAR_DATA, TOGGLE_LIKE_STATE_CHANGE, USERS_DATA_STATE_CHANGE, USERS_LIKES_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, USER_CHATS_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE, USER_POSTS_STATE_CHANGE, USER_STATE_CHANGE } from '../constants/index';
 require('firebase/firestore')
 
 
@@ -166,7 +166,7 @@ export function fetchUserFollowing() {
             .collection("userFollowing")
             .onSnapshot((snapshot) => {
                 let following = snapshot.docs.map(doc => {
-                    const id = doc.id;
+                   const id = doc.id;
                     return id
                 })
                 dispatch({ type: USER_FOLLOWING_STATE_CHANGE, following });
@@ -252,6 +252,44 @@ export function fetchUsersFollowingLikes(uid, postId) {
     })
 }
 
+/**
+ * toggleLike – adds or removes the current user's like on a post.
+ *
+ * @param {string} postCreatorId  UID of the post owner (Firestore path: posts/{postCreatorId})
+ * @param {string} postId         Document ID of the post
+ * @param {boolean} currentUserLike  Whether the current user already likes the post
+ */
+export function toggleLike(postCreatorId, postId, currentUserLike) {
+    return ((dispatch) => {
+        const likeRef = firebase.firestore()
+            .collection("posts")
+            .doc(postCreatorId)
+            .collection("userPosts")
+            .doc(postId)
+            .collection("likes")
+            .doc(firebase.auth().currentUser.uid);
+
+        if (currentUserLike) {
+            // Unlike: remove the like document
+            return likeRef.delete().then(() => {
+                dispatch({
+                    type: TOGGLE_LIKE_STATE_CHANGE,
+                    postId,
+                    currentUserLike: false,
+                });
+            });
+        } else {
+            // Like: create the like document
+            return likeRef.set({}).then(() => {
+                dispatch({
+                    type: TOGGLE_LIKE_STATE_CHANGE,
+                    postId,
+                    currentUserLike: true,
+                });
+            });
+        }
+    })
+}
 
 
 export function queryUsersByUsername(username) {
@@ -295,10 +333,3 @@ export function deletePost(item) {
         })
     })
 }
-
-
-
-
-
-
-
