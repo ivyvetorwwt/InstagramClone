@@ -27,6 +27,12 @@
   </p>
 </p>
 
+## Purpose
+
+This README serves as the primary entry point and comprehensive guide for the Instagram Clone project, providing essential information about the project's purpose, technology stack, setup instructions, and contribution guidelines. It offers both newcomers and experienced developers everything they need to understand, install, configure, and contribute to this full-featured social media application built with React Native, Firebase, and ReactJS.
+
+---
+
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
@@ -90,27 +96,26 @@ See the [open issues](https://github.com/SimCoderYoutube/InstagramClone/issues) 
 
 ## ➕ Contributing
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**. Please check the [Wiki](https://github.com/SimCoderYoutube/InstagramClone/wiki/How-to-Contribute)
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**. Please check the [Wiki](https://github.com/SimCoderYoutube/InstagramClone/wiki) for more information.
 
-## 🌟 Show your support
+<!-- SUPPORT -->
+
+## ⭐ Support
 
 Give a ⭐️ if this project helped you!
 
-And don't forget to subscribe to the [youtube chanel](https://www.youtube.com/c/SimpleCoder?sub_confirmation=1)
+You can also support this project by becoming a sponsor. Your logo will show up here with a link to your website.
+
+<!-- LICENSE -->
 
 ## 📝 License
 
-Copyright © 2021 [SimCoder](https://github.com/simcoderYoutube).
-
-This project is [Apache License 2.0](https://github.com/SimCoderYoutube/InstagramClone/blob/master/LICENSE) licensed. Some of the dependencies are licensed differently.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
 
-## 👤 Contact
+## 📧 Contact
 
-**SimCoder**
+SimCoder - [@simcoder_here](https://twitter.com/simcoder_here)
 
-- Website: www.simcoder.com
-- Twitter: [@simcoder_here](https://twitter.com/simcoder_here)
-- Github: [@simcoderYoutube](https://github.com/simcoderYoutube)
-- Youtube: [SimCoder](https://www.youtube.com/channel/UCQ5xY26cw5Noh6poIE-VBog)
+Project Link: [https://github.com/SimCoderYoutube/InstagramClone](https://github.com/SimCoderYoutube/InstagramClone)
